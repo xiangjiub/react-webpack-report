@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import style  from './index.less';
 // import App from './App'
 // ReactDOM.render(
 //   <App />,
@@ -7,4 +8,7 @@ import ReactDOM from 'react-dom';
 // );
 
 const ele = document.querySelector('#root')
-ele.innerHTML = '阶段测试'
+const newEle = document.createElement("div")
+newEle.className = style.ele
+newEle.innerHTML = '测试css module'
+ele.appendChild(newEle)
