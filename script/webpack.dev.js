@@ -41,7 +41,7 @@ module.exports = merge(common, {
     new webpack.HotModuleReplacementPlugin(),
     new WebpackBar({
       name: 'dev Link Startou!!!', 
-      color: '#f40' 
+      color: '#199a1e' 
     }),
   ]
 })

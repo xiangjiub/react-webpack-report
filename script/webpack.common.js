@@ -1,7 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
+const CopyPlugin = require('copy-webpack-plugin')
 const {isDevelopment,isProduction} = require('./env')
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
@@ -27,6 +27,12 @@ module.exports = {
   module:{
     rules:[
       {
+        test: /\.(tsx?|js)$/,
+        loader: 'babel-loader',
+        options: { cacheDirectory: true },
+        exclude: /node_modules/,
+      },
+      {
         test:/\.css$/,
         use:[...getCssLoaders()]
         // css-loader的options配置:
@@ -44,13 +50,54 @@ module.exports = {
             }
           }
         ]
-      }
+      },
+      {
+        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 4 * 1024,
+          },
+        },
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2?)$/,
+        type: 'asset/resource',
+      },
     ]
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(PROJECT_PATH, './src'),
+      // 'components': path.resolve(PROJECT_PATH, './src/components'),
+      // 'utils': path.resolve(PROJECT_PATH, './src/utils'),
+    },
+    extensions: ['.tsx', '.ts', '.js', '.json','.jsx']
   },
   plugins: [
   	new HtmlWebpackPlugin({
       template: path.resolve(PROJECT_PATH, './public/index.html'),
     }),
     new CleanWebpackPlugin(),
+    new CopyPlugin({
+      patterns: [
+        {
+          context: 'public', 
+          from: '*',
+          to: path.resolve(PROJECT_PATH, './dist/public'), 
+          toType: 'dir',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+            ignore: ['**/index.html'],		// **表示任意目录下
+          },
+        },
+      ],
+    }),
+    // content：解释 fron 路径，具体作用未知
+    // from：定义要拷贝的源文件
+    // to：定义粘贴的指定路径
+    // toType：确定粘贴路径的类型，dir表示路径为一个文件夹
+    // globOptions：允许使用全局匹配
   ]
 }

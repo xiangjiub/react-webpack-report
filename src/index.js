@@ -1,14 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import style  from './index.less';
-// import App from './App'
-// ReactDOM.render(
-//   <App />,
-//   document.getElementById('root')
-// );
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
 
-const ele = document.querySelector('#root')
-const newEle = document.createElement("div")
-newEle.className = style.ele
-newEle.innerHTML = '测试css module'
-ele.appendChild(newEle)
+if (module && module.hot) {
+  module.hot.accept();
+}
+
+ReactDOM.render(<App />, document.getElementById("root"));
