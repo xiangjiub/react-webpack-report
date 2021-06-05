@@ -3,7 +3,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const {isDevelopment,isProduction} = require('./env')
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const { PROJECT_PATH } = require('./constant')
 
@@ -78,7 +77,6 @@ module.exports = {
   	new HtmlWebpackPlugin({
       template: path.resolve(PROJECT_PATH, './public/index.html'),
     }),
-    new CleanWebpackPlugin(),
     new CopyPlugin({
       patterns: [
         {
@@ -99,5 +97,22 @@ module.exports = {
     // to：定义粘贴的指定路径
     // toType：确定粘贴路径的类型，dir表示路径为一个文件夹
     // globOptions：允许使用全局匹配
-  ]
+  ],
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename],
+    },
+  },
+  optimization: {
+    minimize: false,
+    minimizer: [],
+    splitChunks: {
+      chunks: 'all',
+      minSize: 0,
+    },
+  },
+  // splitChunks：代码分割相关配置
+  // splitChunks.chunks：选择哪些内容进行优化，如果为 all 时表示即使同步和异步的代码也可以共享thunk
+  // minSize：生成chunk的最小大小（以字节为单位）
 }

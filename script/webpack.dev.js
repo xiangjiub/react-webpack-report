@@ -13,6 +13,7 @@ module.exports = merge(common, {
     // 打包文件根目录
     filename: 'js/[name].js',
     path: path.resolve(PROJECT_PATH, "./dist"),
+    publicPath: '/',
   },
   // module: {
   //   rules: [
@@ -25,7 +26,8 @@ module.exports = merge(common, {
   //   ],
   // },
   devServer: {
-    host: SERVER_HOST, // 服务ip
+    contentBase: path.join(PROJECT_PATH, "dist"),
+    // host: SERVER_HOST, // 服务ip
     port: SERVER_PORT, // 服务端口
     // stats: 'errors-only', // 设为errors-only表示终端只打印错误类型的日志，不会打印warning以及其他信息影响阅读
     clientLogLevel: 'none', // 设为none表示去除多余网页console信息
@@ -33,7 +35,10 @@ module.exports = merge(common, {
     open: true, // 设为true表示第一次启动项目时自动打开默认浏览器
     // historyApiFallback: true,
     compress: true,
-    noInfo: true, // 设为true表示去除启动项目时显示的打包信息
+    // noInfo: true, // 设为true表示去除启动项目时显示的打包信息
+    historyApiFallback: {
+			index: path.join(PROJECT_PATH, './public/index.html')
+	  },
   },
   target: 'web',
   plugins: [

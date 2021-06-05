@@ -3,6 +3,8 @@ const path = require('path')
 const WebpackBar = require('webpackbar')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+
 const TerserPlugin = require("terser-webpack-plugin")
 const common = require('./webpack.common')
 const { PROJECT_PATH } = require('./constant')
@@ -40,6 +42,7 @@ module.exports = merge(common, {
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:8].css',
       chunkFilename: 'css/[name].[contenthash:8].chunk.css',
-    })
+    }),
+    new CleanWebpackPlugin(),
   ]
 })
